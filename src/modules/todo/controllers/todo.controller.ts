@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { Todo } from '../entities/todo.entity';
+import { CreateDto, UpdateDto } from './dto';
 
 @Controller()
 export class AppController {
@@ -6,12 +16,24 @@ export class AppController {
   getAll(): string {
     return 'Hello world';
   }
-  @Get('id')
+  @Get(':id')
   getOne(@Param('id') id: string): string {
     return 'return ' + id;
   }
   @Post()
-  save() {
-    return 'Create or save';
+  create(@Body() todo: CreateDto): CreateDto {
+    
+    return todo;
+  }
+  @Put(':id')
+  update(
+  @Param('id') id: string,
+  @Body() todo: UpdateDto
+  ): UpdateDto {
+    return todo;
+  }
+  @Delete(':id')
+  deleteStr(@Param('id') id: string): string {
+    return 'Delete element ' + id;
   }
 }
