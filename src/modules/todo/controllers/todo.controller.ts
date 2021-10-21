@@ -9,14 +9,16 @@ import {
 } from '@nestjs/common';
 import { Todo } from '../entities/todo.entity';
 import { TodoService } from '../services/todo.service';
-import { CreateDto, UpdateDto } from './dto';
-
-@Controller()
+import { CreateDto } from './dto';
+@Controller('/api/todo')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
   @Get()
-  getAll(): Promise<Todo[]> {
-    return this.todoService.findAll();
+  // getAll(): Promise<Todo[]> {
+  //   return this.todoService.findAll();
+  // }
+  getAll() {
+    return 'create todo';
   }
   @Get(':id')
   getOne(@Param('id') id: string): Promise<Todo> {
@@ -32,8 +34,14 @@ export class TodoController {
     return this.todoService.create(todo);
   }
   @Put(':id')
-  update(@Param('id') id: string, @Body() todo: UpdateDto): UpdateDto {
-    return todo;
+  async update(
+    @Param('id') id: string,
+    @Body() { title, isCompleted },
+  ): Promise<Todo> {
+    const todo = await this.todoService.findOne(id);
+    todo.title = title;
+    todo.isCompleted = isCompleted;
+    return this.todoService.update(todo);
   }
   @Delete(':id')
   deleteStr(@Param('id') id: string): Promise<void> {

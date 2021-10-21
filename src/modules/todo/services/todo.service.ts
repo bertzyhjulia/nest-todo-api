@@ -16,9 +16,7 @@ export class TodoService {
   create(todo: Todo): Promise<Todo> {
     return this.todoRepository.save(todo);
   }
-  async update(todo: Todo): Promise<Todo> {
-    await this.todoRepository.findOneOrFail(todo.id);
-
+  update(todo: Todo): Promise<Todo> {
     return this.todoRepository.save(todo);
   }
 
