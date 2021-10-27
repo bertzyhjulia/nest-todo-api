@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Relation } from 'src/modules/importand/entities/importand.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class Todo {
@@ -14,4 +15,7 @@ export class Todo {
   @ApiProperty()
   @Column({ default: false })
   isCompleted: boolean;
+
+  @OneToMany((type) => Relation, (relation) => relation.isCompleted)
+  photos: Relation[];
 }
